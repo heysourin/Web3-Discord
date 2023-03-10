@@ -1,4 +1,4 @@
-const { ethers, run, network } = require("hardhat");
+const { ethers, run, network,hre } = require("hardhat");
 //run allows to run any hardhat test
 
 async function main() {
@@ -8,9 +8,10 @@ async function main() {
   await simpleStorage.deployed();
 
   console.log(`Contract deployed to ${simpleStorage.address}`);
+
   if (network.config.chainId === 80001 && process.env.ETHERSCAN_API_KEY) {
-    await simpleStorage.deployTransaction.wait(1);
-    await verify(simpleStorage.address, []);
+    await simpleStorage.deployTransaction.wait(2);
+    await verify(simpleStorage.address, ["Discord Token", "DT"]);
   }
 }
 

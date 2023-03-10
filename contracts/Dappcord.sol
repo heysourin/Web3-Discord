@@ -35,8 +35,8 @@ contract Dappcord is ERC721, Ownable {
     function mint(uint256 _id) public payable {
         require(_id != 0);
         require(_id <= totalChannels);
-        require(hasJoined[_id][msg.sender] == false);
-        require(msg.value >= channels[_id].cost);
+        require(hasJoined[_id][msg.sender] == false, "Already minted");
+        require(msg.value >= channels[_id].cost, "Insufficient ETH");
 
         hasJoined[_id][msg.sender] = true;
         totalSupply++;
@@ -48,7 +48,7 @@ contract Dappcord is ERC721, Ownable {
         return channels[_id];
     }
 
-    function withdrawa() public onlyOwner {
+    function withdraw() public onlyOwner {
         (bool success1, ) = contractOwner.call{value: address(this).balance}(
             ""
         );
@@ -56,5 +56,4 @@ contract Dappcord is ERC721, Ownable {
     }
 }
 
-
-//0x4fCC7bCB2D7AeA3CFDe93C8a7200661Dec1e996e
+//0x06Fd923bc2E4C981A53A539591068d17b5D02c4A

@@ -1,6 +1,6 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config({ path: ".env" });
-require("@nomiclabs/hardhat-etherscan");
+// require("@nomiclabs/hardhat-etherscan");
 
 const RPC_HTTP_URL = process.env.RPC_HTTP_URL;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
