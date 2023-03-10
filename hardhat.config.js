@@ -9,7 +9,7 @@ const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
 module.exports = {
   solidity: "0.8.9",
   networks: {
-    goerli: {
+    mumbai: {
       url: RPC_HTTP_URL,
       accounts: [PRIVATE_KEY],
       chainId: 80001,

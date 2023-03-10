@@ -45,11 +45,16 @@ contract Dappcord is ERC721, Ownable {
     }
 
     function getChannel(uint256 _id) public view returns (Channel memory) {
-       return channels[_id];
+        return channels[_id];
     }
 
     function withdrawa() public onlyOwner {
-        (bool success1, ) = contractOwner.call{value: address(this).balance}("");
+        (bool success1, ) = contractOwner.call{value: address(this).balance}(
+            ""
+        );
         require(success1);
     }
 }
+
+
+//0x4fCC7bCB2D7AeA3CFDe93C8a7200661Dec1e996e

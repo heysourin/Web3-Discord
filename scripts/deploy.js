@@ -4,7 +4,7 @@ const { ethers, run, network } = require("hardhat");
 async function main() {
   const SimpleStorageFactory = await ethers.getContractFactory("Dappcord");
   console.log("Deploying contract...");
-  const simpleStorage = await SimpleStorageFactory.deploy();
+  const simpleStorage = await SimpleStorageFactory.deploy("Discord Token", "DT");
   await simpleStorage.deployed();
 
   console.log(`Contract deployed to ${simpleStorage.address}`);
