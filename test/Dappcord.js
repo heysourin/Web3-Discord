@@ -7,10 +7,13 @@ describe("Dappcord smart contract testing", function () {
   let addr1;
   let addr2;
 
+  let name = "Dappcord Token";
+  let symbol = "DT";
+
   beforeEach(async function () {
     [owner, addr1, addr2] = await ethers.getSigners();
     const Dappcord = await ethers.getContractFactory("Dappcord");
-    dappcord = await Dappcord.deploy("Dappcord Token", "DP");
+    dappcord = await Dappcord.deploy(name, symbol);
     await dappcord.deployed();
   });
 
@@ -28,7 +31,26 @@ describe("Dappcord smart contract testing", function () {
       expect(await dappcord.totalChannels()).to.equal(0);
     });
   });
+
   //----------------------//
+  describe("Deployment", function () {
+    it("Sets the name", async () => {
+      const result = await dappcord.name();
+      expect(result).to.equal(name);
+    });
+
+    it("Sets the symbol", async () => {
+      const result = await dappcord.symbol();
+      expect(result).to.equal(symbol);
+    });
+
+    it("Sets the owner", async () => {
+      const result = await dappcord.contractOwner();
+      expect(result).to.equal(owner.address);
+    });
+  });
+
+  //----------TESTING THE FUNCTIONS------------//
   it("Should create a new channel on ouer discord web3", async function () {
     await dappcord.createChannel("Channel1", 100);
     const channel = await dappcord.getChannel(1);
