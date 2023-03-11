@@ -1,52 +1,36 @@
-import React, { useState } from 'react';
-// import { Button } from '@material-ui/core';
-// import Ethereum from './Ethereum.png' 
-import { ethers } from 'ethers';
-const provider = new ethers.providers.Web3Provider(window.ethereum)
-const Navbar = () => {
-    const [errorMessage, setErrorMessage] = useState(null);
-    const [defaultAccount, setDefaultAccount] = useState(null);
-    const [userBalance, setUserBalance] = useState(null);
-    const connectwalletHandler = () => {
-        if (window.Ethereum) {
-            provider.send("eth_requestAccounts", []).then(async () => {
-                await accountChangedHandler(provider.getSigner());
-            })
-        } else {
-            setErrorMessage("Please Install Metamask!!!");
-        }
-    }
-    const accountChangedHandler = async (newAccount) => {
-        const address = await newAccount.getAddress();
-        setDefaultAccount(address);
-        const balance = await newAccount.getBalance()
-        setUserBalance(ethers.utils.formatEther(balance));
-        await getuserBalance(address)
-    }
-    const getuserBalance = async (address) => {
-        const balance = await provider.getBalance(address, "latest")
-    }
-    return (
-        <div className="Navbar">
-            <img src={Ethereum} className="App-logo" alt="logo" />
-            <h3 className="h4">
-                Welcome to a decentralized Application
-            </h3>
-            <Button
-                style={{ background: defaultAccount ? "#A5CC82" : "white" }}
-                onClick={connectwalletHandler}>
-                {defaultAccount ? "Connected!!" : "Connect"}
-            </Button>
-            <div className="displayAccount">
-                <h4 className="walletAddress">Address:{defaultAccount}</h4>
-                <div className="balanceDisplay">
-                    <h3>
-                        Wallet Amount: {userBalance}
-                    </h3>
-                </div>
-            </div>
-            {errorMessage}
-        </div>
-    )
+import { ethers } from 'ethers'
+
+const Navbar = ({ account, setAccount }) => {
+  const connectHandler = async () => {
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
+    // const account = ethers.utils.getAddress(accounts[0])
+    setAccount(accounts)
+  }
+
+  return (
+    <nav>
+      <div className='nav__brand'>
+        <h1>Dappcord</h1>
+      </div>
+
+      {account ? (
+        <button
+          type="button"
+          className='nav__connect'
+        >
+          {account.slice(0, 6) + '...' + account.slice(38, 42)}
+        </button>
+      ) : (
+        <button
+          type="button"
+          className='nav__connect'
+          onClick={connectHandler}
+        >
+          Connect
+        </button>
+      )}
+    </nav>
+  );
 }
+
 export default Navbar;
